@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .floater-desktop-height {
+    height: calc(100vh - 56px);
+  }
+  .bottom-full-20px {
+    bottom: calc(100% + 20px);
+  }
+
+  .bottom-full-10px {
+    bottom: calc(100% + 10px);
+  }
+
+  .w-100-20px {
+    width: calc(100% - 20px);
+  }
+
+  .border-radius-left-10 {
+    border-radius: 10px 0px 0px 10px;
+  }
+
+  .right-full-420px {
+    right: calc(100% + 420px);
+  }
+}
+
+.w-full-20 {
+  width: calc(100% - 40px);
+}
+
+.translate-center {
+  transform: translate(-50%, -50%);
+}
+
+.detail-card-gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.28) 0%,
+    rgba(0, 0, 0, 0.7) 74.48%
+  );
+}
+.detail-card-opacity-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.gm-style {
+  font-family: inherit;
+}
+
+.gm-style-iw {
+  border-radius: 0.75rem !important;
+  padding: 0 !important;
+  top: -35px !important;
+  max-width: none !important;
+}
+
+.gm-style-iw-d {
+  overflow: auto !important;
+}
+
+.gm-style-iw-tc::after {
+  top: 0 !important;
+}
+
+.gm-style-iw-tc {
+  display: none !important;
+}
+
+.gm-ui-hover-effect {
+  top: 6px !important;
+  right: 7px !important;
+}
+
+.gm-ui-hover-effect span {
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0 !important;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 300px !important;
+}
+.swiper-wrapper {
+  width: 50%;
+}
+.swiper-slide {
+  text-align: center;
+  width: auto;
+}
+.h-auto-i {
+  height: auto !important;
+}
+.translate-x-rotate-m90 {
+  transform: translateX(-48%) rotate(90deg);
+}
