@@ -2,42 +2,43 @@ import React, { useEffect, useState } from "react"
 import { Swiper, SwiperSlide } from "./Swiper"
 import DetailsCard from "./DetailsCard"
 import Button from "./Button"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import CategoryBadge from "./CategoryBadge"
+import PlaceInfoCard from "./PlaceInfoCard"
 
 const slidesData = [
   {
-    imgUrl: "./img/nacionalni_muzej.jpeg",
+    imgUrl: "./img/nacionalni_muzej.webp",
     title: "Narodni muzej",
     distance: 20,
     badgeType: "museum",
   },
   {
-    imgUrl: "./img/djavolja-varos.jpeg",
+    imgUrl: "./img/djavolja-varos.webp",
     title: "Djavolja varos",
     distance: 200,
     badgeType: "nature",
   },
   {
-    imgUrl: "./img/jezero_perucac.jpeg",
+    imgUrl: "./img/jezero_perucac.webp",
     title: "Jezero Perućac",
     distance: 50,
     badgeType: "lake",
   },
   {
-    imgUrl: "./img/djavolja-varos.jpeg",
+    imgUrl: "./img/djavolja-varos.webp",
     title: "Djavolja varos",
     distance: 200,
     badgeType: "nature",
   },
   {
-    imgUrl: "./img/djavolja-varos.jpeg",
+    imgUrl: "./img/djavolja-varos.webp",
     title: "Djavolja varos",
     distance: 200,
     badgeType: "nature",
   },
   {
-    imgUrl: "./img/djavolja-varos.jpeg",
+    imgUrl: "./img/djavolja-varos.webp",
     title: "Djavolja varos",
     distance: 200,
     badgeType: "nature",
@@ -47,7 +48,7 @@ const slidesData = [
 const FloatingCard = () => {
   const [isTouch, setIsTouch] = useState(window.innerWidth < 1024)
   const [isClosed, setIsClosed] = useState(false)
-  const [isFiltering, setIsfiltering] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false)
 
   const variants = isTouch
     ? {
@@ -60,7 +61,12 @@ const FloatingCard = () => {
           closed: { rotate: "180deg" },
         },
         filtersContainer: {
-          // TBD
+          visible: {
+            transform: "translate(50%, 0)",
+          },
+          hidden: {
+            transform: "translate(50%, 100%)",
+          },
         },
       }
     : {
@@ -73,7 +79,10 @@ const FloatingCard = () => {
           closed: { rotate: "180deg" },
         },
         filtersContainer: {
-          // TBD
+          visible: { x: 0 },
+          hidden: {
+            x: "100%",
+          },
         },
       }
 
@@ -103,10 +112,14 @@ const FloatingCard = () => {
       animate={isClosed ? "closed" : "open"}
       initial={false}
       variants={variants.mainContainer}
-      className="fixed touch:bottom-0 right-0 lg:right-5 lg:top-7 touch:w-full lg:floater-desktop-height lg:max-h-[1000px] lg:max-w-[450px] lg:w-[40%] px-6 py-[15px] lg:p-10 rounded-t-xl lg:rounded-3xl bg-beige-500"
+      className="fixed rounded-t-xl lg:rounded-3xl touch:bottom-0 right-0 lg:right-5 lg:top-7 touch:w-full lg:floater-desktop-height lg:max-h-[1000px] lg:max-w-[450px] lg:w-[40%]"
+      style={{ zIndex: 10 }}
     >
-      <div className="relative overflow-hidden h-full lg:flex lg:flex-col">
-        <h2 className="font-secondary pb-3 lg:pb-6 text-2xl lg:text-4xl font-bold text-black-400 lg:h-[80px]">
+      <div className="relative bg-beige-500 rounded-t-xl lg:rounded-3xl px-6 py-[15px] lg:p-10 overflow-hidden h-full lg:flex lg:flex-col">
+        <h2
+          style={{ zIndex: 1 }}
+          className="relative font-secondary pb-3 lg:pb-6 text-2xl lg:text-4xl font-bold text-black-400 lg:h-[80px]"
+        >
           Explore random places
         </h2>
         <div className="relative lg:pb-5 flex-grow overflow-hidden">
@@ -129,9 +142,11 @@ const FloatingCard = () => {
         </div>
         <Button className="touch:hidden self-center">Load more</Button>
       </div>
+      {/* <PlaceInfoCard /> */}
       <button
         className="absolute top-2 right-6 lg:top-10 lg:right-full p-2 lg:rounded-l-xl lg:bg-beige-600 h-12 w-10"
         onClick={() => setIsClosed((p) => !p)}
+        style={{ zIndex: 10 }}
       >
         <motion.img
           animate={isClosed ? "closed" : "open"}
@@ -142,49 +157,61 @@ const FloatingCard = () => {
           alt=""
         />
       </button>
-      <div
-        className={`${
-          isFiltering
-            ? "touch:w-100-20px touch:rounded-2xl lg:rounded-bl-2xl lg:min-w-[420px] bg-beige-500 right-1/2 touch:translate-x-[50%] touch:bottom-full-10px p-5 touch:pb-16"
-            : "touch:right-4 touch:bottom-full-20px "
-        } absolute lg:top-28 lg:right-full `}
-      >
-        <div className={`${isFiltering ? "" : "hidden"}`}>
-          <h3 className="text-black-500 text-2xl font-semibold">Category</h3>
-          <div className="flex py-4 gap-5 justify-between">
-            <div className="flex flex-col w-1/2 gap-2">
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="museum" />
+      <AnimatePresence initial={false} mode="popLayout">
+        {isFiltering && (
+          <motion.div
+            animate={isFiltering ? "visible" : "hidden"}
+            initial="hidden"
+            exit="hidden"
+            variants={variants.filtersContainer}
+            transition={{
+              duration: 0.3,
+              ease: "easeOut",
+            }}
+            className="absolute touch:w-100-20px touch:rounded-2xl lg:rounded-bl-2xl lg:min-w-[420px] bg-beige-500 right-1/2 touch:translate-x-[50%] touch:bottom-full-10px p-5 touch:pb-16 lg:top-28 lg:right-full"
+            style={{ zIndex: -1 }}
+          >
+            <h3 className="text-black-500 text-2xl font-semibold">Category</h3>
+            <div className="flex py-4 gap-5 justify-between">
+              <div className="flex flex-col w-1/2 gap-2">
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="museum" />
+                </div>
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="monument" />
+                </div>
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="nature" />
+                </div>
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="castle" />
+                </div>
               </div>
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="monument" />
-              </div>
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="nature" />
-              </div>
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="castle" />
+              <div className="flex flex-col w-1/2 gap-2">
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="lake" />
+                </div>
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="cave" />
+                </div>
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="waterfall" />
+                </div>
+                <div className="rounded-xl px-4 py-1 bg-beige-400">
+                  <CategoryBadge type="gem" />
+                </div>
               </div>
             </div>
-            <div className="flex flex-col w-1/2 gap-2">
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="lake" />
-              </div>
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="cave" />
-              </div>
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="waterfall" />
-              </div>
-              <div className="rounded-xl px-4 py-1 bg-beige-400">
-                <CategoryBadge type="gem" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button
-        onClick={() => setIsfiltering((p) => !p)}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <motion.button
+        onClick={() => setIsFiltering((p) => !p)}
+        layout
+        transition={{
+          duration: 0.3,
+          ease: "easeOut",
+        }}
         className={`${
           isFiltering
             ? "bg-beige-400 lg:right-full-420px"
@@ -195,7 +222,7 @@ const FloatingCard = () => {
           Filters
         </span>
         <img src="./img/edit.png" className="w-7 lg:w-5" alt="filters" />
-      </button>
+      </motion.button>
     </motion.div>
   )
 }

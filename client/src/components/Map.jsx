@@ -289,7 +289,7 @@ function Map() {
       {showMarkers && (
         <InfoWindow position={belgradePosition}>
           <DetailsCard
-            imgUrl="./img/nacionalni_muzej.jpeg"
+            imgUrl="./img/nacionalni_muzej.webp"
             title="Narodni muzej"
             distance={20}
             badgeType="museum"
