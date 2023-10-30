@@ -70,6 +70,7 @@
 }
 
 .gm-ui-hover-effect {
+  display: none !important;
   top: 6px !important;
   right: 7px !important;
 }

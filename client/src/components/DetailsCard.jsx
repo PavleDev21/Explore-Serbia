@@ -1,7 +1,14 @@
 import React from "react"
 import CategoryBadge from "./CategoryBadge"
 
-const DetailsCard = ({ imgUrl, title, distance, badgeType, isInFloater }) => {
+const DetailsCard = ({
+  imgUrl,
+  title,
+  distance,
+  badgeType,
+  isInFloater,
+  setSelectedMarker,
+}) => {
   return (
     <div
       className={`rounded-xl overflow-hidden bg-center bg-cover bg-no-repeat ${
@@ -35,6 +42,14 @@ const DetailsCard = ({ imgUrl, title, distance, badgeType, isInFloater }) => {
           </a>
         </div>
       </div>
+      {!isInFloater && (
+        <button
+          className="absolute right-3 top-3 pointer"
+          onClick={() => setSelectedMarker("")}
+        >
+          <img src="./img/close.png" className="w-5" alt="close dialog" />
+        </button>
+      )}
     </div>
   )
 }

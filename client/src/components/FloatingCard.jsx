@@ -93,6 +93,9 @@ const FloatingCard = () => {
         spaceBetween: 20,
         direction: "vertical",
         className: "h-full",
+        mousewheel: {
+          forceToAxis: true,
+        },
       }
 
   useEffect(() => {

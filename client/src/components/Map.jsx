@@ -228,7 +228,9 @@ const styles = [
 const center = { lat: 44.9165, lng: 21.0059 }
 
 function Map() {
+  const [places, setPlaces] = useState([])
   const [showMarkers, setShowMarkers] = useState(false)
+  const [selectedMarker, setSelectedMarker] = useState()
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -240,6 +242,24 @@ function Map() {
       setShowMarkers(true)
     }
   }, [isLoaded])
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/places")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok")
+        }
+        return response.json()
+      })
+      .then((result) => {
+        setPlaces(result)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error)
+      })
+  }, [])
+
+  console.log(places)
 
   const handleMapLoad = (map) => {
     map.data.addGeoJson(serbiaGeoJSON)
@@ -285,14 +305,29 @@ function Map() {
         gestureHandling: "greedy", // Enable one finger movement
       }}
     >
-      {showMarkers && <Marker position={belgradePosition} />}
-      {showMarkers && (
-        <InfoWindow position={belgradePosition}>
+      {showMarkers &&
+        places.map((place) => {
+          return (
+            <Marker
+              key={place.id}
+              position={{ lat: place.location.lat, lng: place.location.lng }}
+              onClick={() => setSelectedMarker(place)}
+            />
+          )
+        })}
+      {selectedMarker && (
+        <InfoWindow
+          position={{
+            lat: selectedMarker.location.lat,
+            lng: selectedMarker.location.lng,
+          }}
+        >
           <DetailsCard
-            imgUrl="./img/nacionalni_muzej.webp"
-            title="Narodni muzej"
+            imgUrl={selectedMarker.images[0]}
+            title={selectedMarker.name}
             distance={20}
-            badgeType="museum"
+            badgeType={selectedMarker.category}
+            setSelectedMarker={setSelectedMarker}
           />
         </InfoWindow>
       )}
