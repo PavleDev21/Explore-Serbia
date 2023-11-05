@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import CategoryBadge from "./CategoryBadge"
 import PlaceInfoCard from "./PlaceInfoCard"
 import { PlacesContext } from "../App"
+import Filters from "./Filters"
 
 const getRandomElements = (arr, count) => {
   let shuffled = [...arr]
@@ -29,8 +30,14 @@ const getRandomElements = (arr, count) => {
 }
 
 const FloatingCard = () => {
+  const [isTouch, setIsTouch] = useState(window.innerWidth < 1024)
+  const [isClosed, setIsClosed] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false)
+
   const places = useContext(PlacesContext)
   const [slidesData, setSlidesData] = useState([])
+  const [activeFilters, setActiveFilters] = useState([])
+  console.log(activeFilters)
 
   const getRandomPlaces = () => {
     if (places && places.length > 0) {
@@ -41,10 +48,6 @@ const FloatingCard = () => {
   useEffect(() => {
     getRandomPlaces()
   }, [places])
-
-  const [isTouch, setIsTouch] = useState(window.innerWidth < 1024)
-  const [isClosed, setIsClosed] = useState(false)
-  const [isFiltering, setIsFiltering] = useState(false)
 
   const variants = isTouch
     ? {
@@ -173,36 +176,7 @@ const FloatingCard = () => {
             style={{ zIndex: -1 }}
           >
             <h3 className="text-black-500 text-2xl font-semibold">Category</h3>
-            <div className="flex py-4 gap-5 justify-between">
-              <div className="flex flex-col w-1/2 gap-2">
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="museum" />
-                </div>
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="monument" />
-                </div>
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="nature" />
-                </div>
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="castle" />
-                </div>
-              </div>
-              <div className="flex flex-col w-1/2 gap-2">
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="lake" />
-                </div>
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="cave" />
-                </div>
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="waterfall" />
-                </div>
-                <div className="rounded-xl px-4 py-1 bg-beige-400">
-                  <CategoryBadge type="gem" />
-                </div>
-              </div>
-            </div>
+            <Filters setActiveFilters={setActiveFilters} />
           </motion.div>
         )}
       </AnimatePresence>
