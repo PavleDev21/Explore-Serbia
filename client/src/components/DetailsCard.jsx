@@ -11,7 +11,7 @@ const DetailsCard = ({
 }) => {
   return (
     <div
-      className={`rounded-xl overflow-hidden bg-center bg-cover bg-no-repeat ${
+      className={`cursor-pointer rounded-xl overflow-hidden bg-center bg-cover bg-no-repeat ${
         isInFloater
           ? "max-w-[270px] lg:max-w-[330px] lg:w-full lg:mx-auto"
           : "min-w-[330px]"
@@ -37,7 +37,11 @@ const DetailsCard = ({
           <p className={`text-white ${isInFloater ? "text-sm" : "text-base"}`}>
             {distance}km from you
           </p>
-          <a href="" className="text-white font-secondary text-lg italic">
+          <a
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            className="text-white font-secondary text-lg italic"
+          >
             Read more...
           </a>
         </div>

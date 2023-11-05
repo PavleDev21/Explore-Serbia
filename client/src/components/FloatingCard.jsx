@@ -36,8 +36,6 @@ const FloatingCard = () => {
 
   const places = useContext(PlacesContext)
   const [slidesData, setSlidesData] = useState([])
-  const [activeFilters, setActiveFilters] = useState([])
-  console.log(activeFilters)
 
   const getRandomPlaces = () => {
     if (places && places.length > 0) {
@@ -95,6 +93,7 @@ const FloatingCard = () => {
         mousewheel: {
           forceToAxis: true,
         },
+        scrollbar: true,
       }
 
   useEffect(() => {
@@ -135,7 +134,7 @@ const FloatingCard = () => {
                   isInFloater
                   imgUrl={slide.images[0]}
                   title={slide.name}
-                  distance={slide.distance}
+                  distance={20}
                   badgeType={slide.category}
                 />
               </SwiperSlide>
@@ -176,7 +175,7 @@ const FloatingCard = () => {
             style={{ zIndex: -1 }}
           >
             <h3 className="text-black-500 text-2xl font-semibold">Category</h3>
-            <Filters setActiveFilters={setActiveFilters} />
+            <Filters />
           </motion.div>
         )}
       </AnimatePresence>

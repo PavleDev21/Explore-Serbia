@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { register } from "swiper/element/bundle"
 
-export function Swiper({ children, className, ...rest }) {
+export function Swiper({ children, className, scrollbar, ...rest }) {
   const swiperRef = useRef(null)
 
   useEffect(() => {
@@ -21,7 +21,12 @@ export function Swiper({ children, className, ...rest }) {
   }, [])
 
   return (
-    <swiper-container class={className} init="false" ref={swiperRef}>
+    <swiper-container
+      class={className}
+      scrollbar={scrollbar}
+      init="false"
+      ref={swiperRef}
+    >
       {children}
     </swiper-container>
   )

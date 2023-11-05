@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useContext } from "react"
 import CategoryBadge from "./CategoryBadge"
+import { FiltersContext } from "../App"
 
 const categories = [
   "museum",
@@ -12,7 +13,9 @@ const categories = [
   "gem",
 ]
 
-const Filters = ({ setActiveFilters }) => {
+const Filters = () => {
+  const { activeFilters, setActiveFilters } = useContext(FiltersContext)
+
   return (
     <div className="flex py-4 gap-5 justify-between">
       <div className="flex flex-col w-1/2 gap-2">
@@ -21,7 +24,11 @@ const Filters = ({ setActiveFilters }) => {
             return (
               <div
                 key={idx}
-                className="rounded-xl px-4 py-1 bg-beige-400"
+                className={`rounded-xl px-4 py-1 ${
+                  activeFilters.includes(category)
+                    ? "bg-beige-600"
+                    : "bg-beige-400"
+                }`}
                 onClick={() =>
                   setActiveFilters((prevFilters) => {
                     if (prevFilters.includes(category)) {
@@ -44,7 +51,11 @@ const Filters = ({ setActiveFilters }) => {
             return (
               <div
                 key={idx}
-                className="rounded-xl px-4 py-1 bg-beige-400"
+                className={`rounded-xl px-4 py-1 ${
+                  activeFilters.includes(category)
+                    ? "bg-beige-600"
+                    : "bg-beige-400"
+                }`}
                 onClick={() =>
                   setActiveFilters((prevFilters) => {
                     if (prevFilters.includes(category)) {

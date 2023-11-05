@@ -4,9 +4,11 @@ import Header from "./components/Header"
 import FloatingCard from "./components/FloatingCard"
 
 export const PlacesContext = createContext()
+export const FiltersContext = createContext()
 
 function App() {
   const [places, setPlaces] = useState([])
+  const [activeFilters, setActiveFilters] = useState([])
 
   useEffect(() => {
     fetch("http://localhost:8000/api/places")
@@ -26,11 +28,13 @@ function App() {
 
   return (
     <PlacesContext.Provider value={places}>
-      <div className="relative">
-        <Header />
-        <Map />
-        <FloatingCard />
-      </div>
+      <FiltersContext.Provider value={{ activeFilters, setActiveFilters }}>
+        <div className="relative">
+          <Header />
+          <Map />
+          <FloatingCard />
+        </div>
+      </FiltersContext.Provider>
     </PlacesContext.Provider>
   )
 }

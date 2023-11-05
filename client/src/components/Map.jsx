@@ -8,7 +8,7 @@ import {
 import mapStyles from "../assets/gmapStyling.json"
 import serbiaGeoJSON from "../assets/serbia_smooth.json"
 import DetailsCard from "./DetailsCard"
-import { PlacesContext } from "../App"
+import { FiltersContext, PlacesContext } from "../App"
 
 const libraries = ["places"]
 
@@ -16,6 +16,7 @@ const center = { lat: 44.9165, lng: 21.0059 }
 
 function Map() {
   const places = useContext(PlacesContext)
+  const { activeFilters } = useContext(FiltersContext)
 
   const [showMarkers, setShowMarkers] = useState(false)
   const [selectedMarker, setSelectedMarker] = useState()
@@ -24,6 +25,8 @@ function Map() {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries,
   })
+
+  console.log(places.map((place) => place.name))
 
   useEffect(() => {
     if (isLoaded) {
@@ -76,15 +79,25 @@ function Map() {
       }}
     >
       {showMarkers &&
-        places.map((place) => {
-          return (
-            <Marker
-              key={place._id}
-              position={{ lat: place.location.lat, lng: place.location.lng }}
-              onClick={() => setSelectedMarker(place)}
-            />
-          )
-        })}
+        places
+          .filter((place) => {
+            // If there are no filters, or if the place's category matches one of the filters, include it
+            // The place is shown if activeFilters is empty (no filters applied) or the place's category is in the list of activeFilters
+            return (
+              activeFilters.length === 0 ||
+              activeFilters.includes(place.category)
+            )
+          })
+          .map((place) => {
+            // Return a Marker for each place that passes the filter
+            return (
+              <Marker
+                key={place._id}
+                position={{ lat: place.location.lat, lng: place.location.lng }}
+                onClick={() => setSelectedMarker(place)}
+              />
+            )
+          })}
       {selectedMarker && (
         <InfoWindow
           position={{

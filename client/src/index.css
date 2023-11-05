@@ -92,6 +92,11 @@
   text-align: center;
   width: auto;
 }
+
+.swiper-scrollbar {
+  right: 0;
+}
+
 .h-auto-i {
   height: auto !important;
 }
