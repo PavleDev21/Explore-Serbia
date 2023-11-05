@@ -1,51 +1,47 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Swiper, SwiperSlide } from "./Swiper"
 import DetailsCard from "./DetailsCard"
 import Button from "./Button"
 import { AnimatePresence, motion } from "framer-motion"
 import CategoryBadge from "./CategoryBadge"
 import PlaceInfoCard from "./PlaceInfoCard"
+import { PlacesContext } from "../App"
 
-const slidesData = [
-  {
-    imgUrl: "./img/nacionalni_muzej.webp",
-    title: "Narodni muzej",
-    distance: 20,
-    badgeType: "museum",
-  },
-  {
-    imgUrl: "./img/djavolja-varos.webp",
-    title: "Djavolja varos",
-    distance: 200,
-    badgeType: "nature",
-  },
-  {
-    imgUrl: "./img/jezero_perucac.webp",
-    title: "Jezero Perućac",
-    distance: 50,
-    badgeType: "lake",
-  },
-  {
-    imgUrl: "./img/djavolja-varos.webp",
-    title: "Djavolja varos",
-    distance: 200,
-    badgeType: "nature",
-  },
-  {
-    imgUrl: "./img/djavolja-varos.webp",
-    title: "Djavolja varos",
-    distance: 200,
-    badgeType: "nature",
-  },
-  {
-    imgUrl: "./img/djavolja-varos.webp",
-    title: "Djavolja varos",
-    distance: 200,
-    badgeType: "nature",
-  },
-]
+const getRandomElements = (arr, count) => {
+  let shuffled = [...arr]
+  let i = arr.length
+  let min = i - count
+  let temp, index
+
+  // While there remain elements to shuffle…
+  while (i-- > min) {
+    // Pick a remaining element…
+    index = Math.floor((i + 1) * Math.random())
+
+    // And swap it with the current element.
+    temp = shuffled[i]
+    shuffled[i] = shuffled[index]
+    shuffled[index] = temp
+  }
+
+  // Get the sub-array of the first `count` elements after shuffled.
+  return shuffled.slice(min)
+}
 
 const FloatingCard = () => {
+  const places = useContext(PlacesContext)
+  const [slidesData, setSlidesData] = useState([])
+
+  const getRandomPlaces = () => {
+    if (places && places.length > 0) {
+      setSlidesData(getRandomElements(places, 5))
+    }
+  }
+
+  useEffect(() => {
+    getRandomPlaces()
+  }, [places])
+
   const [isTouch, setIsTouch] = useState(window.innerWidth < 1024)
   const [isClosed, setIsClosed] = useState(false)
   const [isFiltering, setIsFiltering] = useState(false)
@@ -127,23 +123,25 @@ const FloatingCard = () => {
         </h2>
         <div className="relative lg:pb-5 flex-grow overflow-hidden">
           <Swiper {...swiperConfig}>
-            {slidesData.map((slide, idx) => (
+            {slidesData?.map((slide, idx) => (
               <SwiperSlide
                 key={idx}
                 className={isTouch ? "w-auto" : "h-auto-i"}
               >
                 <DetailsCard
                   isInFloater
-                  imgUrl={slide.imgUrl}
-                  title={slide.title}
+                  imgUrl={slide.images[0]}
+                  title={slide.name}
                   distance={slide.distance}
-                  badgeType={slide.badgeType}
+                  badgeType={slide.category}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
-        <Button className="touch:hidden self-center">Load more</Button>
+        <Button onClick={getRandomPlaces} className="touch:hidden self-center">
+          Load more
+        </Button>
       </div>
       {/* <PlaceInfoCard /> */}
       <button
