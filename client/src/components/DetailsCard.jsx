@@ -8,6 +8,7 @@ const DetailsCard = ({
   badgeType,
   isInFloater,
   setSelectedMarker,
+  onClick,
 }) => {
   return (
     <div
@@ -17,6 +18,7 @@ const DetailsCard = ({
           : "min-w-[330px]"
       }`}
       style={{ backgroundImage: `url(${imgUrl})` }}
+      onClick={onClick}
     >
       <div
         className={`pb-2.5 ${
@@ -26,8 +28,11 @@ const DetailsCard = ({
         }`}
       >
         <h3
+          // className={`font-secondary ${
+          //   isInFloater ? "text-[1.6rem]" : "text-[2rem]"
+          // } text-white tracking-wider font-bold`}
           className={`font-secondary ${
-            isInFloater ? "text-[1.6rem]" : "text-[2rem]"
+            isInFloater ? "text-[17px] md:text-[21px]" : "text-[21px]"
           } text-white tracking-wider font-bold`}
         >
           {title}
@@ -49,7 +54,10 @@ const DetailsCard = ({
       {!isInFloater && (
         <button
           className="absolute right-3 top-3 pointer"
-          onClick={() => setSelectedMarker("")}
+          onClick={(e) => {
+            e.stopPropagation()
+            setSelectedMarker("")
+          }}
         >
           <img src="./img/close.png" className="w-5" alt="close dialog" />
         </button>

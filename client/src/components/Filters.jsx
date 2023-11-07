@@ -24,7 +24,7 @@ const Filters = () => {
             return (
               <div
                 key={idx}
-                className={`rounded-xl px-4 py-1 ${
+                className={`cursor-pointer rounded-xl px-4 py-1 ${
                   activeFilters.includes(category)
                     ? "bg-beige-600"
                     : "bg-beige-400"
@@ -51,7 +51,7 @@ const Filters = () => {
             return (
               <div
                 key={idx}
-                className={`rounded-xl px-4 py-1 ${
+                className={`cursor-pointer rounded-xl px-4 py-1 ${
                   activeFilters.includes(category)
                     ? "bg-beige-600"
                     : "bg-beige-400"

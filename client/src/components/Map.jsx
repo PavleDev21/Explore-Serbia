@@ -15,7 +15,7 @@ const libraries = ["places"]
 const center = { lat: 44.9165, lng: 21.0059 }
 
 function Map() {
-  const places = useContext(PlacesContext)
+  const { places, setSelectedPlace } = useContext(PlacesContext)
   const { activeFilters } = useContext(FiltersContext)
 
   const [showMarkers, setShowMarkers] = useState(false)
@@ -26,15 +26,13 @@ function Map() {
     libraries,
   })
 
-  console.log(places.map((place) => place.name))
+  console.log(places)
 
   useEffect(() => {
     if (isLoaded) {
       setShowMarkers(true)
     }
   }, [isLoaded])
-
-  console.log(places)
 
   const handleMapLoad = (map) => {
     map.data.addGeoJson(serbiaGeoJSON)
@@ -111,6 +109,7 @@ function Map() {
             distance={20}
             badgeType={selectedMarker.category}
             setSelectedMarker={setSelectedMarker}
+            onClick={() => setSelectedPlace(selectedMarker)}
           />
         </InfoWindow>
       )}
