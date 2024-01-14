@@ -1,5 +1,6 @@
 # Explore Serbia
 This project is a full-stack application built with the MERN stack (MongoDB, Express.js, React, Node.js). It features a map interface to explore different places in Serbia, with categories like museums, monuments, nature, castles, lakes, caves, waterfalls, and hidden gems.
+
 ![Explore Serbia](https://github.com/PavleDev21/Explore-Serbia/blob/main/presentation_image.png?raw=true)
 ## Features
 
