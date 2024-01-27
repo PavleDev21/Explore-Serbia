@@ -75,7 +75,7 @@ Distributed under the MIT License.
 
 ### Contact
 
-Pavle Baračkov - mailto:pavle.barackov@gmail.com  
+Pavle Baračkov - pavle.barackov@gmail.com  
 Project link - https://github.com/PavleDev21/Explore-Serbia/
 
 
